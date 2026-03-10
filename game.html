@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Game Arena</title>
+<style>
+body{
+margin:0;
+font-family:sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+color:white;
+}
+
+.multi{
+background:linear-gradient(135deg,#ff512f,#dd2476);
+}
+
+.simple{
+background:#222;
+}
+
+.card{
+padding:30px;
+width:400px;
+text-align:center;
+background:rgba(0,0,0,0.4);
+}
+
+.round{border-radius:20px;}
+.square{border-radius:0;}
+
+button{
+margin:5px;
+padding:8px 15px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+input{
+padding:8px;
+width:80%;
+margin:10px 0;
+}
+</style>
+</head>
+<body>
+
+<div id="gameCard" class="card">
+<h3 id="modeTitle"></h3>
+
+<div>
+Score: <span id="score">0</span> |
+Coins: <span id="coins">0</span> |
+Accuracy: <span id="accuracy">0%</span>
+</div>
+
+<div id="question"></div>
+
+<input type="text" id="answer">
+<br>
+<button onclick="submitAnswer()">Submit</button>
+<button onclick="pauseGame()">Pause</button>
+<button onclick="restartGame()">Restart</button>
+<button onclick="finishGame()">Finish</button>
+
+</div>
+
+<script>
+let score=0,coins=0,total=0,correct=0,paused=false;
+let mode=localStorage.getItem("mode");
+let theme=localStorage.getItem("theme");
+let shape=localStorage.getItem("shape");
+
+document.body.classList.add(theme);
+document.getElementById("gameCard").classList.add(shape);
+
+document.getElementById("modeTitle").innerText=mode.toUpperCase()+" MODE";
+
+function generateQuestion(){
+if(paused) return;
+
+if(mode==="palindrome"){
+let words=["madam","level","radar","civic"];
+current=words[Math.floor(Math.random()*words.length)];
+document.getElementById("question").innerText="Type this word backwards: "+current;
+}
+else if(mode==="math"){
+let a=Math.floor(Math.random()*10);
+let b=Math.floor(Math.random()*10);
+current=a+b;
+document.getElementById("question").innerText=a+" + "+b+" = ?";
+}
+else{
+current=Math.floor(Math.random()*100);
+document.getElementById("question").innerText="Type this number fast: "+current;
+}
+}
+
+function submitAnswer(){
+if(paused) return;
+
+let ans=document.getElementById("answer").value;
+total++;
+
+if(ans==current){
+score+=10;
+coins+=5;
+correct++;
+}else{
+score-=5;
+}
+
+updateStats();
+document.getElementById("answer").value="";
+generateQuestion();
+}
+
+function updateStats(){
+document.getElementById("score").innerText=score;
+document.getElementById("coins").innerText=coins;
+let acc=Math.round((correct/total)*100);
+document.getElementById("accuracy").innerText=acc+"%";
+}
+
+function pauseGame(){
+paused=!paused;
+alert(paused?"Game Paused":"Game Resumed");
+}
+
+function restartGame(){
+score=0;coins=0;total=0;correct=0;
+updateStats();
+generateQuestion();
+}
+
+function finishGame(){
+let name=localStorage.getItem("playerName");
+let leaderboard=JSON.parse(localStorage.getItem("leaderboard"))||[];
+leaderboard.push({name,score});
+localStorage.setItem("leaderboard",JSON.stringify(leaderboard));
+alert("Game Finished! Score Saved.");
+window.location.href="menu.html";
+}
+
+generateQuestion();
+</script>
+
+</body>
+</html>

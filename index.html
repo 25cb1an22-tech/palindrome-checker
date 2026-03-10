@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Game Hub Login</title>
+<style>
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#667eea,#764ba2);
+font-family:sans-serif;
+color:white;
+}
+
+.box{
+background:white;
+color:black;
+padding:40px;
+border-radius:20px;
+text-align:center;
+width:320px;
+}
+
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border-radius:10px;
+border:1px solid gray;
+}
+
+button{
+padding:10px 20px;
+border:none;
+border-radius:10px;
+background:#667eea;
+color:white;
+cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+<h2>🎮 Welcome Gamer</h2>
+<input type="text" id="username" placeholder="Enter Username">
+<button onclick="login()">Enter Game</button>
+</div>
+
+<script>
+function login(){
+let user=document.getElementById("username").value;
+if(user===""){alert("Enter username");return;}
+localStorage.setItem("playerName",user);
+window.location.href="menu.html";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Game Menu</title>
+<style>
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#111827
+;
+color:white;
+font-family:sans-serif;
+}
+
+.card{
+background:;
+padding:30px;
+border-radius:20px;
+width:350px;
+}
+
+select{
+width:100%;
+padding:10px;
+margin:10px 0;
+border-radius:10px;
+}
+
+button{
+width:100%;
+padding:10px;
+border:none;
+border-radius:10px;
+background:#ff9800;
+color:white;
+cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+<h3>Welcome <span id="player"></span></h3>
+
+<label>Game Mode</label>
+<select id="mode">
+<option value="palindrome">Palindrome</option>
+<option value="math">Math Quiz</option>
+<option value="speed">Speed Mode</option>
+</select>
+
+<label>Theme</label>
+<select id="theme">
+<option value="multi">Multicolor</option>
+<option value="simple">Simple Dark</option>
+</select>
+
+<label>Shape Style</label>
+<select id="shape">
+<option value="round">Rounded</option>
+<option value="square">Square</option>
+</select>
+
+<button onclick="startGame()">Start Game</button>
+</div>
+
+<script>
+document.getElementById("player").innerText=localStorage.getItem("playerName");
+
+function startGame(){
+localStorage.setItem("mode",document.getElementById("mode").value);
+localStorage.setItem("theme",document.getElementById("theme").value);
+localStorage.setItem("shape",document.getElementById("shape").value);
+window.location.href="game.html";
+}
+</script>
+
+</body>
+</html>
